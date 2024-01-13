@@ -1,23 +1,19 @@
 package com.lumaivzqz.urlshortener.application.services;
 
 import com.lumaivzqz.urlshortener.domain.entities.Url;
-import com.lumaivzqz.urlshortener.domain.services.CreateShortUrl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UrlService {
 
-    @Autowired
-    private CreateShortUrl createShortUrl;
-
+    private static final String BASE_SHORT_URL = "http://www.shorturl.com/";
 
     public String createShortUrlFrom(String longUrl){
         // check if it was already saved into the database
         // getShortUrlUsecase.execute(longUrl);
         // if it is, returns short url, if not:
 
-        Url url = createShortUrl.execute(new Url(longUrl));
+        Url url = new Url(longUrl).generateShortUrl(BASE_SHORT_URL);
 
         // save it
 

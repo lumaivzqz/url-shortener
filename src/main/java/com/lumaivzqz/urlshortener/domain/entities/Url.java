@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.util.Base64;
+
 @Entity
 public class Url {
     @Id
@@ -25,4 +27,11 @@ public class Url {
         return this.shortUrl;
     }
 
+    public Url generateShortUrl(String baseUrl) {
+        String shortUrl = Base64.getEncoder().encodeToString(String.valueOf(this.id).getBytes());
+
+        this.setShortUrl(baseUrl + shortUrl);
+
+        return this;
+    }
 }
