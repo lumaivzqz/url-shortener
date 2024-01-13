@@ -1,10 +1,12 @@
-package com.lumaivzqz.urlshortener.domain.services;
+package com.lumaivzqz.urlshortener.application.services;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.lumaivzqz.urlshortener.domain.usecases.CreateShortUrlUsecase;
+import com.lumaivzqz.urlshortener.domain.entities.Url;
+import com.lumaivzqz.urlshortener.domain.services.CreateShortUrl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,22 +20,25 @@ class UrlServiceTest {
     private UrlService urlService;
 
     @Mock
-    private CreateShortUrlUsecase createShortUrlUsecase;
+    private CreateShortUrl createShortUrl;
 
     @Test
     @DisplayName("Should works successfully")
     void testCreateShortUrlFrom() {
         // given
         String longUrl = "https://www.urlshortener.com/q=someinfomation&s=moreinformation&&v=v5&&g=extrainformation";
-        String expected = "https://www.urlshortener.com/q=someinfomation&s=moreinformation&&v=v5&&g=extrainformation";
+        String shortUrl = "http://www.shorturl.com/1uy234i";
+
+        Url expected = new Url(longUrl);
+        expected.setShortUrl(shortUrl);
 
         // when
-        when(createShortUrlUsecase.execute(longUrl)).thenReturn(expected);
+        when(createShortUrl.execute(any())).thenReturn(expected);
 
         String actual = urlService.createShortUrlFrom(longUrl);
 
         // then
-        assertEquals(expected, actual);
+        assertEquals(expected.getShortUrl(), actual);
     }
 
 }
