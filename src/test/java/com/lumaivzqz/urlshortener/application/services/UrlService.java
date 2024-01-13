@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import com.lumaivzqz.urlshortener.application.dtos.UrlDto;
 import com.lumaivzqz.urlshortener.domain.entities.Url;
 import com.lumaivzqz.urlshortener.infrastructure.repositories.UrlRepository;
 import jakarta.persistence.EntityExistsException;
@@ -18,6 +19,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class UrlServiceTest {
 
+    final static  String longUrl = "https://www.urlshortener.com/q=someinfomation&s=moreinformation&&v=v5&&g=extrainformation";
+    final static String shortUrl = "https://www.shorturl.com/bnVsbA==";
+
     @InjectMocks
     private UrlService urlService;
 
@@ -28,36 +32,30 @@ class UrlServiceTest {
     @DisplayName("Should works successfully")
     void testCreateShortUrlFrom() {
         // given
-        String longUrl = "https://www.urlshortener.com/q=someinfomation&s=moreinformation&&v=v5&&g=extrainformation";
-        String shortUrl = "http://www.shorturl.com/bnVsbA==";
-
-        Url expected = new Url(longUrl);
-        expected.setShortUrl(shortUrl);
+        Url url = new Url(longUrl);
+        url.setShortUrl(shortUrl);
 
         // when
         when(urlRepository.findByLongUrl(any())).thenReturn(null);
-        when(urlRepository.save(any())).thenReturn(null);
+        when(urlRepository.save(any())).thenReturn(url);
 
-        String actual = urlService.createShortUrlFrom(longUrl);
+        String actual = urlService.createShortUrlFrom(new UrlDto(longUrl));
 
         // then
-        assertEquals(expected.getShortUrl(), actual);
+        assertEquals(shortUrl, actual);
     }
 
     @Test
     @DisplayName("Should returns short url when url already exists")
     void testLongUrlAlreadyExists() {
         // given
-        String longUrl = "https://www.urlshortener.com/q=someinfomation&s=moreinformation&&v=v5&&g=extrainformation";
-        String shortUrl = "http://www.shorturl.com/bnVsbA==";
-
         Url expected = new Url(longUrl);
         expected.setShortUrl(shortUrl);
 
         // when
         when(urlRepository.findByLongUrl(longUrl)).thenReturn(expected);
 
-        String actual = urlService.createShortUrlFrom(longUrl);
+        String actual = urlService.createShortUrlFrom(new UrlDto(longUrl));
 
         // then
         verify(urlRepository, never()).save(any());
@@ -68,9 +66,6 @@ class UrlServiceTest {
     @DisplayName("Should failed when it tries to save")
     void testCreateShortUrlFromFailedSaving() {
         // given
-        String longUrl = "https://www.urlshortener.com/q=someinfomation&s=moreinformation&&v=v5&&g=extrainformation";
-        String shortUrl = "http://www.shorturl.com/bnVsbA==";
-
         Url expected = new Url(longUrl);
         expected.setShortUrl(shortUrl);
 
@@ -80,7 +75,7 @@ class UrlServiceTest {
 
         // then
         assertThrows(EntityExistsException.class, () -> {
-            urlService.createShortUrlFrom(longUrl);
+            urlService.createShortUrlFrom(new UrlDto(longUrl));
         });
     }
 

@@ -10,10 +10,12 @@ import java.util.Base64;
 @Entity
 public class Url {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     private String longUrl;
     private String shortUrl;
+
+    public Url(){}
 
     public Url(String longUrl) {
         this.longUrl = longUrl;
@@ -28,9 +30,9 @@ public class Url {
     }
 
     public Url generateShortUrl(String baseUrl) {
-        String shortUrl = Base64.getEncoder().encodeToString(String.valueOf(this.id).getBytes());
+        String alias = Base64.getEncoder().encodeToString(String.valueOf(this.id).getBytes());
 
-        this.setShortUrl(baseUrl + shortUrl);
+        this.setShortUrl(baseUrl + alias);
 
         return this;
     }
