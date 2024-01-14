@@ -10,12 +10,10 @@ import java.util.Base64;
 @Entity
 public class Url {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String longUrl;
     private String shortUrl;
-
-    public Url(){}
 
     public Url(String longUrl) {
         this.longUrl = longUrl;
