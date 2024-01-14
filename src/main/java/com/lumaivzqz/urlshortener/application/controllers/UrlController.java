@@ -13,6 +13,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.InputMismatchException;
 
 @RestController
 @RequestMapping("/api")
@@ -40,6 +41,8 @@ public class UrlController {
             final URI longUrl = urlService.getLongUrlFrom(shortUrl);
 
             return ResponseEntity.status(HttpStatus.PERMANENT_REDIRECT).location(longUrl).build();
+        } catch (InputMismatchException e) {
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e){

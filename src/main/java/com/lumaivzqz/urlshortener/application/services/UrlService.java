@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.InputMismatchException;
 import java.util.Optional;
@@ -43,7 +44,7 @@ public class UrlService {
 
         try {
             id = base64Service.decode(shortUrl);
-        } catch(NumberFormatException e) {
+        } catch(UnsupportedEncodingException e) {
             throw new InputMismatchException("URL is not valid");
         }
 
