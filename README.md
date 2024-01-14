@@ -58,7 +58,7 @@ For this use case, there is a cache to return more quickly the most used urls.
    
 <img src="https://github.com/lumaivzqz/url-shortener/assets/42591425/10971f6d-8f3a-47f6-8a29-8c27e5995775" alt="drawing" width="60%"/>
 
-## Run project
+## Run it!
 You will need:
 - SDK Amazon corretto-17
 - docker-compose
@@ -70,6 +70,5 @@ You will need:
 5. Go to the project's root and run the database with: `docker-compose up -d`.
 6. You must to create a connection with the database and add an schema to it (you could use a database tool or simply do it using a terminal screen).
 7. Run the app and play!
-
 
 
