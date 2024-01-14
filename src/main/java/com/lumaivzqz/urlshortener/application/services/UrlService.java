@@ -34,9 +34,18 @@ public class UrlService {
 
         final Url url = urlRepository.save(new Url(longUrl));
 
-        urlRepository.save(url.generateShortUrl(PREFIX_URL));
+        final String shortUrl = this.generateShortUrl(url);
+        url.setShortUrl(shortUrl);
+
+        urlRepository.save(url);
 
         return url.getShortUrl();
+    }
+
+    private String generateShortUrl(Url url) {
+        String alias = base64Service.encode(url.getId());
+
+        return PREFIX_URL + alias;
     }
 
     public URI getLongUrlFrom(final String shortUrl) {

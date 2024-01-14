@@ -14,7 +14,11 @@ public class Base64Service {
 
     private static final Base64.Encoder encoder = Base64.getEncoder();
 
-    public Long decode(String value) throws UnsupportedEncodingException {
+    public Long decode(final String value) throws UnsupportedEncodingException {
         return Long.decode(new String(decoder.decode(value), "UTF-8"));
+    }
+
+    public String encode(final Long value) {
+        return encoder.encodeToString(String.valueOf(value).getBytes());
     }
 }

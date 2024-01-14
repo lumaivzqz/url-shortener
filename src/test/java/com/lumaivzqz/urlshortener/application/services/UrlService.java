@@ -1,8 +1,7 @@
 package com.lumaivzqz.urlshortener.application.services;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -17,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.InputMismatchException;
 import java.util.Optional;
@@ -46,6 +46,7 @@ class UrlServiceTest {
         // when
         when(urlRepository.findByLongUrl(any())).thenReturn(null);
         when(urlRepository.save(any())).thenReturn(url);
+        when(base64Service.encode(any())).thenReturn("bnVsbA==");
 
         String actual = urlService.createShortUrlFrom(new UrlDto(longUrl));
 
@@ -97,7 +98,11 @@ class UrlServiceTest {
         final Long id = 1l;
 
         // when
-        when(base64Service.decode(any())).thenReturn(id);
+        try {
+            when(base64Service.decode(any())).thenReturn(id);
+        } catch (Exception e) {
+            fail();
+        }
         when(urlRepository.findById(any())).thenReturn(Optional.of(url));
 
         final URI actual = urlService.getLongUrlFrom(shortUrl);
@@ -107,14 +112,18 @@ class UrlServiceTest {
     }
 
     @Test
-    @DisplayName("Should throw input mismatch exception when short url was not right encoded")
+    @DisplayName("Should throw unsupported encoding exception when short url was not right encoded")
     void testShortUrlNotRightEncoded() {
         // given
         Url url = new Url(longUrl);
         url.setShortUrl(shortUrl);
 
         // when
-        when(base64Service.decode(any())).thenThrow(new NumberFormatException());
+        try {
+            when(base64Service.decode(any())).thenThrow(new UnsupportedEncodingException());
+        } catch (Exception e) {
+            fail();
+        }
 
         // then
         assertThrows(InputMismatchException.class, () -> {
@@ -134,7 +143,11 @@ class UrlServiceTest {
         final Long id = 1l;
 
         // when
+        try {
         when(base64Service.decode(any())).thenReturn(id);
+        } catch (Exception e) {
+            fail();
+        }
         when(urlRepository.findById(any())).thenThrow(new EntityNotFoundException("URL not found"));
 
         // then

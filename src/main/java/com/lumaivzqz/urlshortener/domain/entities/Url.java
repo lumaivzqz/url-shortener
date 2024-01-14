@@ -31,12 +31,8 @@ public class Url {
         return this.shortUrl;
     }
 
-    public Url generateShortUrl(String baseUrl) {
-        String alias = Base64.getEncoder().encodeToString(String.valueOf(this.id).getBytes());
-
-        this.setShortUrl(baseUrl + alias);
-
-        return this;
+    public Long getId(){
+        return this.id;
     }
 
     public URI getURI() {
