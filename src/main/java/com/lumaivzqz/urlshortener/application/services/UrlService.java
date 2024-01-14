@@ -34,7 +34,15 @@ public class UrlService {
         return url.getShortUrl();
     }
 
-    public URI getLongUrlFrom(final String shortUrl) throws URISyntaxException {
-        return new URI(shortUrl);
+    public URI getLongUrlFrom(final String shortUrl) {
+        URI uri;
+
+        try {
+            uri = new URI(shortUrl);
+        } catch (URISyntaxException e) {
+            throw  new InternalError();
+        }
+
+        return uri;
     }
 }

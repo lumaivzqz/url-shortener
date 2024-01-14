@@ -3,7 +3,6 @@ package com.lumaivzqz.urlshortener.application.controllers;
 import com.lumaivzqz.urlshortener.application.dtos.UrlDto;
 import com.lumaivzqz.urlshortener.application.reponses.ShortUrlResponse;
 import com.lumaivzqz.urlshortener.application.services.UrlService;
-import jakarta.persistence.EntityExistsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
