@@ -70,5 +70,13 @@ You will need:
 5. Go to the project's root and run the database with: `docker-compose up -d`.
 6. You must to create a connection with the database and add an schema to it (you could use a database tool or simply do it using a terminal screen).
 7. Run the app and play!
+   
+      Create a short url with: 
+      `curl --location 'localhost:8080/api/v1/url' \
+      --header 'Content-Type: application/json' \
+      --data '{
+          "url": "https://www.google.com"
+      }'`.
+      This request will return a short url. With the project running, copy & paste it into your browser. It'll redirect you to the original URL. 
 
 
