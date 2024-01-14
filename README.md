@@ -58,7 +58,18 @@ For this use case, there is a cache to return more quickly the most used urls.
    
 <img src="https://github.com/lumaivzqz/url-shortener/assets/42591425/10971f6d-8f3a-47f6-8a29-8c27e5995775" alt="drawing" width="60%"/>
 
+## Run project
+You will need:
+- SDK Amazon corretto-17
+- docker-compose
 
+1. Download the repository.
+2. Configure SDK Amazon corretto-17.
+3. Download Maven dependencies.
+4. Configure enviroment variables into your run-configuration: `spring.datasource.password=password;spring.datasource.url=jdbc:mysql://localhost:3306/url-shortener;spring.datasource.username=root`
+5. Go to the project's root and run the database with: `docker-compose up -d`.
+6. You must to create a connection with the database and add an schema to it (you could use a database tool or simply do it using a terminal screen).
+7. Run the app and play!
 
 
 
