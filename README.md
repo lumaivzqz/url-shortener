@@ -16,12 +16,18 @@ There are two use cases, as you can see in the image below:
 <img src="https://github.com/lumaivzqz/url-shortener/assets/42591425/449a71bf-43dd-4e53-959f-6ffeac1117f7" alt="drawing" width="50%"/>
 
 ### Key-Value database or Relational database?
-<img src="(https://github.com/lumaivzqz/url-shortener/assets/42591425/d8d38389-68f9-4ad1-9666-090f4317da6c" alt="drawing" width="50%"/>
+
+<img src="https://github.com/lumaivzqz/url-shortener/assets/42591425/499ae87f-8d0e-4849-987d-006a2857bbcc" alt="drawing" width="35%"/>
 
 For this problem, data consistency and availability is really important. Taking into account the CAP theorem, a SQL database could be taken into consideration.
 A key-value database do not ensure consistency or availability (depends on the solution), but allows for data scalability. However, they are usually more expensive than relational databases.
 
 For this solution, a relational database has been chosen to ensure data availability and consistency, and to economize the solution.
+
+Here is how the table looks like:
+
+<img src="https://github.com/lumaivzqz/url-shortener/assets/42591425/fc089aa5-dbe4-401a-9482-26e96913f949" alt="drawing" width="30%"/>
+
 
 ### Creation of the short url
 For this use case it's needed a Hash function fx that maps a long url to the hash value, as shown in the image below:
