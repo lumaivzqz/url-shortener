@@ -41,9 +41,9 @@ public class UrlController {
 
             return ResponseEntity.status(HttpStatus.PERMANENT_REDIRECT).location(longUrl).build();
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e){
-            return ResponseEntity.internalServerError().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 }

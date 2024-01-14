@@ -3,12 +3,12 @@ package com.lumaivzqz.urlshortener.application.services;
 import com.lumaivzqz.urlshortener.application.dtos.UrlDto;
 import com.lumaivzqz.urlshortener.domain.entities.Url;
 import com.lumaivzqz.urlshortener.infrastructure.repositories.UrlRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.InputMismatchException;
 import java.util.Optional;
 
 @Service
@@ -16,6 +16,10 @@ public class UrlService {
 
     @Autowired
     private UrlRepository urlRepository;
+
+    @Autowired
+    private Base64Service base64Service;
+
     private static final String PREFIX_URL = "/api/v1/";
 
     public String createShortUrlFrom(final UrlDto urlDto){
@@ -35,14 +39,19 @@ public class UrlService {
     }
 
     public URI getLongUrlFrom(final String shortUrl) {
-        URI uri;
+        Long id;
 
         try {
-            uri = new URI(shortUrl);
-        } catch (URISyntaxException e) {
-            throw  new InternalError();
+            id = base64Service.decode(shortUrl);
+        } catch(NumberFormatException e) {
+            throw new InputMismatchException("URL is not valid");
         }
 
-        return uri;
+        final Optional<Url> url = urlRepository.findById(id);
+        if(url.isEmpty()) {
+            throw new EntityNotFoundException("URL not found");
+        }
+
+        return url.get().getURI();
     }
 }

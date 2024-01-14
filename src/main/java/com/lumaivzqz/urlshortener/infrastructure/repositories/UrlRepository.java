@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface UrlRepository extends CrudRepository<Url, Long> {
 
     Url findByLongUrl(String longUrl);
+
+    Url findByShortUrl(String shortUrl);
 }
