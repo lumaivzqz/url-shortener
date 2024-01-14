@@ -19,8 +19,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class UrlServiceTest {
 
-    final static  String longUrl = "https://www.urlshortener.com/q=someinfomation&s=moreinformation&&v=v5&&g=extrainformation";
-    final static String shortUrl = "https://www.shorturl.com/bnVsbA==";
+    final static  String longUrl = "https://www.urlshortener.com/q=someinfomation&s=moreinformation&&v=v2&&g=extrainformation";
+    final static String shortUrl = "/api/v1/bnVsbA==";
 
     @InjectMocks
     private UrlService urlService;

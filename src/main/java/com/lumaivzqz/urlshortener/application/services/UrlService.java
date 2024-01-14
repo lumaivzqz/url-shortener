@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Optional;
 
 @Service
@@ -14,9 +16,7 @@ public class UrlService {
 
     @Autowired
     private UrlRepository urlRepository;
-    @Value("${default.base-short-url}")
-    private String BASE_SHORT_URL;
-
+    private static final String PREFIX_URL = "/api/v1/";
 
     public String createShortUrlFrom(final UrlDto urlDto){
         final String longUrl = urlDto.getUrl();
@@ -29,8 +29,12 @@ public class UrlService {
 
         final Url url = urlRepository.save(new Url(longUrl));
 
-        urlRepository.save(url.generateShortUrl(BASE_SHORT_URL));
+        urlRepository.save(url.generateShortUrl(PREFIX_URL));
 
         return url.getShortUrl();
+    }
+
+    public URI getLongUrlFrom(final String shortUrl) throws URISyntaxException {
+        return new URI(shortUrl);
     }
 }
